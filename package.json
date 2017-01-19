@@ -1,0 +1,22 @@
+{
+  "name": "short-url-service",
+  "version": "1.0.0",
+  "description": "Create a short url in place of a longer url.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Cyclokitty/short-url-service.git"
+  },
+  "author": "Laura Veee",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Cyclokitty/short-url-service/issues"
+  },
+  "homepage": "https://github.com/Cyclokitty/short-url-service#readme",
+  "dependencies": {
+    "express": "^4.14.0"
+  }
+}
