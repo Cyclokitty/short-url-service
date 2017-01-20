@@ -1,5 +1,10 @@
 const express = require('express');
 let app = express();
+const validUrl = require('valid-url');
+const shortid = require('shortid');
+
+//sampling shortid
+console.log(shortid.generate());
 
 app.use(express.static('public'));
 
