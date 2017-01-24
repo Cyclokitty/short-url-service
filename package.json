@@ -20,5 +20,9 @@
     "express": "^4.14.0",
     "shortid": "^2.2.6",
     "valid-url": "^1.0.9"
+  },
+  "devDependencies": {
+    "eslint": "^3.14.0",
+    "eslint-config-google": "^0.7.1"
   }
 }

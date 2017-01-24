@@ -1,9 +1,9 @@
 const express = require('express');
-let app = express();
+const app = express();
 const validUrl = require('valid-url');
 const shortid = require('shortid');
 
-//sampling shortid
+// sampling shortid
 console.log(shortid.generate());
 
 // sampling validUrl
@@ -25,7 +25,7 @@ app.get('/:link(*)', (req, res) => {
   if (validUrl.isUri(link)) {
     let shortId = shortid.generate();
     let shortLink = `http://localhost:3000/${shortId}`;
-    res.json({ "valid": `${link}`, "shortId": `${shortLink}` });
+    res.json({'valid': `${link}`, 'shortId': `${shortLink}`});
   } else {
     res.send(`Your link is not valid. Please try again.`);
   }
