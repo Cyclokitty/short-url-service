@@ -2,17 +2,8 @@ const express = require('express');
 const app = express();
 const validUrl = require('valid-url');
 const shortid = require('shortid');
-
-// sampling shortid
-console.log(shortid.generate());
-
-// sampling validUrl
-const isValid = 'https://cyclokitty.github.io';
-if (validUrl.isUri(isValid)) {
-  console.log(`${isValid} is fine.`);
-} else {
-  console.log('Nope');
-}
+const MongoClient = require('mongodb').MongoClient;
+const assert = require('assert');
 
 app.use(express.static('public'));
 
@@ -20,15 +11,54 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html');
 });
 
-app.get('/:link(*)', (req, res) => {
-  const link = req.params.link;
-  if (validUrl.isUri(link)) {
+  app.get('/db/:link(*)', (req, res) => {
+    const link = req.params.link;
+
+    MongoClient.connect('mongodb://localhost:27017/urls', (err, db) => {
+      assert.equal(null, err);
+      console.log('Connected to MongoDB server.');
+    db.collection('urls').find({shorturl: link}).toArray().then((docs) => {
+      if (docs.length > 0) {
+        console.log(JSON.stringify(docs, undefined, 2));
+        console.log(docs[0].longurl);
+        res.redirect(docs[0].longurl);
+      } else {
+        console.log('this is not in our records');
+        res.send('This is not in our records');
+      }
+    }, (err) => {
+      console.log('Unable to fetch data, ', err);
+    });
+  });
+});
+
+app.get('/new/:newLink(*)', (req, res) => {
+  MongoClient.connect('mongodb://localhost:27017/urls', (err, db) => {
+    assert.equal(null, err);
+    console.log('Connected to MongoDB server.');
+  let newLink = req.params.newLink;
+  if (validUrl.isUri(newLink)) {
     let shortId = shortid.generate();
-    let shortLink = `http://localhost:3000/${shortId}`;
-    res.json({'valid': `${link}`, 'shortId': `${shortLink}`});
+    var shortLink = `http://localhost:3000/${shortId}`;
+    console.log(shortLink);
+    db.collection('urls').insertOne({longurl: newLink, shorturl: shortLink}, (err, result) => {
+      if (err) {
+        res.send('Sorry, we can\'t handle your request right now.');
+        console.log('error when someone tries adding an url', err);
+      }
+      const info = {
+        'longurl': result.ops[0].longurl,
+        'shorturl': result.ops[0].shorturl,
+      };
+      res.send(info);
+      console.log(info);
+    });
   } else {
-    res.send(`Your link is not valid. Please try again.`);
+    console.log('not a real link');
+    res.send('That is not a proper URL. Try again.');
   }
+  console.log(shortLink);
+});
 });
 
 const port = process.env.PORT || 3000;

@@ -18,6 +18,7 @@
   "homepage": "https://github.com/Cyclokitty/short-url-service#readme",
   "dependencies": {
     "express": "^4.14.0",
+    "mongodb": "^2.2.22",
     "shortid": "^2.2.6",
     "valid-url": "^1.0.9"
   },
