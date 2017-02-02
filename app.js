@@ -14,7 +14,7 @@ app.get('/', (req, res) => {
   app.get('/db/:link(*)', (req, res) => {
     const link = req.params.link;
 
-    MongoClient.connect(process.env.MONGODBURI, (err, db) => {
+    MongoClient.connect(process.env.MONGODB_URI, (err, db) => {
       assert.equal(null, err);
       console.log('Connected to MongoDB server.');
     db.collection('urls').find({shorturl: link}).toArray().then((docs) => {
@@ -33,7 +33,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/new/:newLink(*)', (req, res) => {
-  MongoClient.connect(process.env.MONGODBURI, (err, db) => {
+  MongoClient.connect(process.env.MONGODB_URI, (err, db) => {
     assert.equal(null, err);
     console.log('Connected to MongoDB server.');
   let newLink = req.params.newLink;
