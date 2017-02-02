@@ -4,7 +4,6 @@ const validUrl = require('valid-url');
 const shortid = require('shortid');
 const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
-const dotenv = require('dotenv');
 
 app.use(express.static('public'));
 
