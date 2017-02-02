@@ -4,6 +4,7 @@ const validUrl = require('valid-url');
 const shortid = require('shortid');
 const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
+const dotenv = require('dotenv');
 
 app.use(express.static('public'));
 
@@ -14,7 +15,7 @@ app.get('/', (req, res) => {
   app.get('/db/:link(*)', (req, res) => {
     const link = req.params.link;
 
-    MongoClient.connect('mongodb://localhost:27017/urls', (err, db) => {
+    MongoClient.connect(process.env.MONGODBURI ||'mongodb://localhost:27017/urls', (err, db) => {
       assert.equal(null, err);
       console.log('Connected to MongoDB server.');
     db.collection('urls').find({shorturl: link}).toArray().then((docs) => {
