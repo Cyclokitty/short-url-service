@@ -14,7 +14,7 @@ app.get('/', (req, res) => {
   app.get('/db/:link(*)', (req, res) => {
     const link = req.params.link;
 
-    MongoClient.connect(process.env.MONGODBURI, (err, db) => {
+    MongoClient.connect('mongodb://localhost:27017/urls', (err, db) => {
       assert.equal(null, err);
       console.log('Connected to MongoDB server.');
     db.collection('urls').find({shorturl: link}).toArray().then((docs) => {
@@ -33,13 +33,13 @@ app.get('/', (req, res) => {
 });
 
 app.get('/new/:newLink(*)', (req, res) => {
-  MongoClient.connect(process.env.MONGODBURI, (err, db) => {
+  MongoClient.connect('mongodb://localhost:27017/urls', (err, db) => {
     assert.equal(null, err);
     console.log('Connected to MongoDB server.');
   let newLink = req.params.newLink;
   if (validUrl.isUri(newLink)) {
     let shortId = shortid.generate();
-    var shortLink = `https://puny-url.herokuapp.com/${shortId}`;
+    var shortLink = `https://localhost:3000/${shortId}`;
     console.log(shortLink);
     db.collection('urls').insertOne({longurl: newLink, shorturl: shortLink}, (err, result) => {
       if (err) {
