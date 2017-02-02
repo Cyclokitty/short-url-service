@@ -23,7 +23,6 @@
     "valid-url": "^1.0.9"
   },
   "devDependencies": {
-    "dotenv": "^4.0.0",
     "eslint": "^3.14.0",
     "eslint-config-google": "^0.7.1"
   }
