@@ -39,7 +39,7 @@ app.get('/new/:newLink(*)', (req, res) => {
   let newLink = req.params.newLink;
   if (validUrl.isUri(newLink)) {
     let shortId = shortid.generate();
-    var shortLink = `https://puny-url.herokuapp.com/${shortId}`;
+    var shortLink = `https://festive-apparatus.glitch.me//${shortId}`;
     console.log(shortLink);
     db.collection('urls').insertOne({longurl: newLink, shorturl: shortLink}, (err, result) => {
       if (err) {
