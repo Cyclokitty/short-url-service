@@ -12,7 +12,7 @@ app.get('/', (req, res) => {
 });
 
   app.get('/db/:link(*)', (req, res) => {
-    const link = req.params.link;
+    const link = 'https://festive-apparatus.glitch.me/db/' + req.params.link;
 
     MongoClient.connect(process.env.MONGODB_URI, (err, db) => {
       assert.equal(null, err);
@@ -24,6 +24,7 @@ app.get('/', (req, res) => {
         res.redirect(docs[0].longurl);
       } else {
         console.log('this is not in our records');
+        console.log(docs[0].longurl);
         res.send('This is not in our records');
       }
     }, (err) => {
