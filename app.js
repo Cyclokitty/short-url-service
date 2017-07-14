@@ -39,7 +39,7 @@ app.get('/new/:newLink(*)', (req, res) => {
   let newLink = req.params.newLink;
   if (validUrl.isUri(newLink)) {
     let shortId = shortid.generate();
-    var shortLink = `https://festive-apparatus.glitch.me//${shortId}`;
+    var shortLink = `https://festive-apparatus.glitch.me/db/${shortId}`;
     console.log(shortLink);
     db.collection('urls').insertOne({longurl: newLink, shorturl: shortLink}, (err, result) => {
       if (err) {
